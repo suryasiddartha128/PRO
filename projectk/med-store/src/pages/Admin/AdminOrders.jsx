@@ -69,7 +69,7 @@ const AdminOrders = () => {
                     <thead className='shadow-md font-bold text-blue-500 text-left rounded-md'>
                         <tr>
                             <th className='p-3'>UID</th>
-                            <th className='p-3'>PID</th>
+                            <th className='p-3'>MID</th>
                             <th className='p-3'>Phone</th>
                             <th className='p-3'>Total</th>
                             <th className='p-3'>Actions</th>

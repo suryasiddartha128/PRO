@@ -39,7 +39,7 @@ const AdminProducts = () => {
     try {
       const response = await addProduct(product)
       if (response.status === 200) {
-        toast.success('Product Added')
+        toast.success('Medicine Added')
         setShowAdd(false)
         fetchData()
       }
@@ -65,7 +65,7 @@ const AdminProducts = () => {
       if (response.status === 200) {
         setShowEdit(!showEdit)
         fetchData()
-        toast.info("Product Updated !")
+        toast.info("Medicine Updated !")
       }
     } catch (error) {
       toast.error("Error while Updating")
@@ -75,7 +75,7 @@ const AdminProducts = () => {
     try {
       const response = await deleteProduct(id)
       if (response.status === 200) {
-        toast.success('Product Deleted')
+        toast.success('Medicine Deleted')
         fetchData()
       }
     } catch (error) {
@@ -116,7 +116,7 @@ const AdminProducts = () => {
           <div className='h-[60vh] w-full flex flex-col justify-center items-center gap-3'>
             <TriangleAlert className='text-orange-400 h-12 w-12' />
             <p>
-              No Products Available !
+              No Medicines Available !
             </p>
           </div>
         </div>
@@ -149,7 +149,7 @@ const AdminProducts = () => {
   return (
     <div className='w-full flex flex-col justify-start items-start'>
       <div className='w-full flex flex-row justify-between items-center my-4 shadow-md rounded-md p-1 border'>
-        <AdminPageHeader title='Products' />
+        <AdminPageHeader title='Medicines' />
         <button className='w-10 h-10 font-bold flex justify-center items-center border-2 border-blue-500 rounded-md
           text-blue-500 shadow-md hover:text-white hover:bg-blue-500 hover:shadow-md
           hover:shadow-blue-400'
@@ -162,7 +162,7 @@ const AdminProducts = () => {
         <table className='w-full h-full border-collapse border shadow-lg rounded-md'>
           <thead className='shadow-md font-bold text-blue-500 text-left rounded-md'>
             <tr>
-              <th className='p-6'>PID</th>
+              <th className='p-6'>MID</th>
               <th className='p-6'>Image</th>
               <th className='p-6'>Title</th>
               <th className='p-6'>Price</th>
@@ -204,7 +204,7 @@ const AdminProducts = () => {
             <div className='h-[55%] w-1/3 flex flex-col justify-center items-center bg-white shadow-2xl rounded-md'>
               <div className='h-full w-full flex flex-col justify-center items-center text-lg font-semibold'>
                 <div className="h-[20%] w-[80%] flex flex-row justify-center items-center">
-                  <h1 className='w-1/2 text-left text-xl my-6 font-bold text-blue-500'>Add Product</h1>
+                  <h1 className='w-1/2 text-left text-xl my-6 font-bold text-blue-500'>Add Medicine</h1>
                   <div className="w-1/2 flex justify-end items-center text-red-500 cursor-pointer" onClick={() => { setShowAdd(!showAdd) }}>
                     <X className="h-8 w-8 border-2 p-1  border-red-500 rounded-full  hover:bg-red-500 hover:text-white" />
                   </div>
@@ -226,7 +226,7 @@ const AdminProducts = () => {
             <div className='h-[55%] w-1/3 flex flex-col justify-center items-center bg-white shadow-2xl rounded-md'>
               <div className='h-full w-full flex flex-col justify-center items-center text-lg font-semibold'>
                 <div className="h-[20%] w-[80%] flex flex-row justify-center items-center">
-                  <h1 className='w-1/2 text-left text-xl my-6 font-bold text-blue-500'>Edit Product</h1>
+                  <h1 className='w-1/2 text-left text-xl my-6 font-bold text-blue-500'>Edit Medicine</h1>
                   <div className="w-1/2 flex justify-end items-center text-red-500 cursor-pointer" onClick={() => { setShowEdit(!showEdit) }}>
                     <X className="h-8 w-8 border-2 p-1  border-red-500 rounded-full  hover:bg-red-500 hover:text-white" />
                   </div>

@@ -5,10 +5,12 @@ import { toast } from 'sonner';
 
 const ProductCard = ({ img, price, name, auth, uid, pid }) => {
     const [showPurchase, setShowPurchase] = useState(false);
+    const [modalPosition, setModalPosition] = useState({ top: 0, left: 0 });
     const [productInfo, setProductInfo] = useState({ img, price, name });
 
     const phoneRef = useRef('');
     const addressRef = useRef('');
+    const buyButtonRef = useRef(null);
 
     const handleBuy = async (e) => {
         e.preventDefault();
@@ -33,6 +35,14 @@ const ProductCard = ({ img, price, name, auth, uid, pid }) => {
     };
 
     const openPurchaseModal = () => {
+        // Get the position of the Buy Now button
+        if (buyButtonRef.current) {
+            const rect = buyButtonRef.current.getBoundingClientRect();
+            setModalPosition({
+                top: rect.top + window.scrollY,
+                left: rect.left + window.scrollX,
+            });
+        }
         setProductInfo({ img, price, name });
         setShowPurchase(true);
     };
@@ -67,6 +77,7 @@ const ProductCard = ({ img, price, name, auth, uid, pid }) => {
                     <div className="p-6 pt-0 w-full">
                         <button
                             type="button"
+                            ref={buyButtonRef} // Attach ref to the Buy Now button
                             className="w-full rounded-lg bg-blue-500 py-3 px-6 text-center text-xs font-bold uppercase text-white shadow-md transition-all hover:shadow-lg focus:opacity-[0.85]"
                             onClick={openPurchaseModal}
                         >
@@ -78,52 +89,58 @@ const ProductCard = ({ img, price, name, auth, uid, pid }) => {
 
             {/* Purchase Modal */}
             {showPurchase && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-                    <div className="w-[90%] max-w-[400px] bg-white rounded-md shadow-2xl p-6 flex flex-col items-center min-h-[300px] max-h-[80vh] overflow-y-auto">
-                        {/* Modal Header */}
-                        <div className="w-full flex justify-between items-center mb-4">
-                            <h1 className="text-xl font-bold text-blue-500">
-                                Complete Purchase for {productInfo.name}
-                            </h1>
-                            <div
-                                className="text-red-500 cursor-pointer"
-                                onClick={() => setShowPurchase(false)}
-                            >
-                                <X className="h-8 w-8 border-2 p-1 border-red-500 rounded-full hover:bg-red-500 hover:text-white" />
-                            </div>
+                <div
+                    className="fixed z-50 bg-white rounded-md shadow-2xl p-6 flex flex-col items-center min-h-[300px] max-h-[80vh] overflow-y-auto"
+                    style={{
+                        position: 'absolute',
+                        top: modalPosition.top + 10, // Adjust position as needed
+                        left: modalPosition.left,
+                        transform: 'translateX(-50%)',
+                    }}
+                >
+                    {/* Modal Header */}
+                    <div className="w-full flex justify-between items-center mb-4">
+                        <h1 className="text-xl font-bold text-blue-500">
+                            Complete Purchase for {productInfo.name}
+                        </h1>
+                        <div
+                            className="text-red-500 cursor-pointer"
+                            onClick={() => setShowPurchase(false)}
+                        >
+                            <X className="h-8 w-8 border-2 p-1 border-red-500 rounded-full hover:bg-red-500 hover:text-white" />
                         </div>
-
-                        {/* Purchase Form */}
-                        <form className="w-full flex flex-col gap-4" onSubmit={handleBuy}>
-                            <input
-                                ref={phoneRef}
-                                type="number"
-                                name="phone"
-                                id="phone"
-                                placeholder="Phone"
-                                className="w-full shadow-sm outline-none bg-[#f5f5f7] border-b-2 border-transparent p-4 focus:shadow-lg focus:border-blue-400 rounded-sm"
-                                required
-                            />
-                            <textarea
-                                ref={addressRef}
-                                name="address"
-                                id="address"
-                                className="w-full shadow-sm outline-none bg-[#f5f5f7] border-b-2 border-transparent p-4 focus:shadow-lg focus:border-blue-400 rounded-sm"
-                                rows="4"
-                                placeholder="Shipping Address"
-                                required
-                            />
-                            <p className="text-lg font-semibold">
-                                Total: <IndianRupee className="inline-block" /> {productInfo.price}
-                            </p>
-                            <button
-                                type="submit"
-                                className="w-full h-[3rem] bg-blue-500 text-white rounded-sm shadow-lg hover:shadow-blue-400 transition-all"
-                            >
-                                Complete Purchase
-                            </button>
-                        </form>
                     </div>
+
+                    {/* Purchase Form */}
+                    <form className="w-full flex flex-col gap-4" onSubmit={handleBuy}>
+                        <input
+                            ref={phoneRef}
+                            type="number"
+                            name="phone"
+                            id="phone"
+                            placeholder="Phone"
+                            className="w-full shadow-sm outline-none bg-[#f5f5f7] border-b-2 border-transparent p-4 focus:shadow-lg focus:border-blue-400 rounded-sm"
+                            required
+                        />
+                        <textarea
+                            ref={addressRef}
+                            name="address"
+                            id="address"
+                            className="w-full shadow-sm outline-none bg-[#f5f5f7] border-b-2 border-transparent p-4 focus:shadow-lg focus:border-blue-400 rounded-sm"
+                            rows="4"
+                            placeholder="Shipping Address"
+                            required
+                        />
+                        <p className="text-lg font-semibold">
+                            Total: <IndianRupee className="inline-block" /> {productInfo.price}
+                        </p>
+                        <button
+                            type="submit"
+                            className="w-full h-[3rem] bg-blue-500 text-white rounded-sm shadow-lg hover:shadow-blue-400 transition-all"
+                        >
+                            Complete Purchase
+                        </button>
+                    </form>
                 </div>
             )}
         </>
